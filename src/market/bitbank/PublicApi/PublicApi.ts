@@ -30,7 +30,7 @@ export class BitbankPublicApi {
     const endTime = startTimeOfCandlestick(type, end);
     let offset = 0;
 
-    while (candlesticks.length <= count) {
+    while (candlesticks.length < count) {
       const fetched = await this.#getCandlesticks({ pair, type, page: getCandlestickPagingParam(type, offset, end) });
       candlesticks.unshift(...fetched.filter((c) => c.time <= endTime));
       offset++;
@@ -51,6 +51,6 @@ export class BitbankPublicApi {
     const url = `${this.#baseUrl}/${pair}/candlestick/${type}/${page}`;
     const result = await axios.get<ApiResponse<GetCandlesticksDataResponseData>>(url).then(responseHandler);
 
-    return transformCandlesticks(result, type);
+    return transformCandlesticks(result);
   }
 }
