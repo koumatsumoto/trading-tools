@@ -19,8 +19,12 @@ jobs:
       # npm ERR! peerOptional typescript@">= 4.4.x <= 5.0.x" from msw@1.2.1
       - run: npm ci --legacy-peer-deps
       - run: npm run lint
-      - run: npm run build
       - run: npm run test
+      - run: npm run build
+      - uses: actions/cache/save@v3
+        with:
+          path: ./dist/
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
 
   publish:
     if: contains(github.ref, 'tags/v')
@@ -31,13 +35,15 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache/restore@v3
+        with:
+          path: ./dist/
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-
+          fail-on-cache-miss: true
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: npm
-      - run: npm ci --legacy-peer-deps
-      - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{github.ref_name}}
-      - run: npm run build
       - run: |
           echo @koumatsumoto:registry=https://npm.pkg.github.com/ > .npmrc
           echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
