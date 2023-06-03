@@ -64,7 +64,6 @@ describe("BitbankPublicApi", () => {
       count: 1,
       end: new Date("2022-03-24T00:00:00.000Z"),
     });
-    console.log(res);
     expect(res).toStrictEqual([
       {
         type: "1day",
