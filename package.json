@@ -1,0 +1,63 @@
+{
+  "name": "trading-tools",
+  "version": "0.1.0",
+  "description": "",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koumatsumoto/trading-tools.git"
+  },
+  "homepage": "https://github.com/koumatsumoto/trading-tools#readme",
+  "bugs": {
+    "url": "https://github.com/koumatsumoto/trading-tools/issues"
+  },
+  "type": "module",
+  "main": "./dist/trading-tools.js",
+  "module": "./dist/trading-tools.js",
+  "exports": {
+    "import": "./dist/trading-tools.js",
+    "require": "./dist/trading-tools.umd.cjs"
+  },
+  "types": "./types/index.d.ts",
+  "files": [
+    "/dist",
+    "/types"
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "format": "prettier --write --ignore-path .gitignore .",
+    "lint": "prettier --check --ignore-path .gitignore .",
+    "test": "vitest run",
+    "prepare": "husky install"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/node": "^20.2.5",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vitest": "^0.31.4"
+  },
+  "prettier": {
+    "printWidth": 140,
+    "importOrder": [
+      "^[./]"
+    ],
+    "importOrderCaseInsensitive": true
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,html,css,scss,json,yml,yaml,md}": [
+      "prettier --write"
+    ]
+  }
+}
