@@ -11,12 +11,9 @@ export const responseHandler = <T>(response: AxiosResponse<ApiResponse<T>>): T =
   }
 };
 
-export const transformCandlesticks = (
-  data: GetCandlesticksDataResponseData,
-  type: Candlestick["type"]
-): Candlestick[] => {
+export const transformCandlesticks = (data: GetCandlesticksDataResponseData): Candlestick[] => {
   return data.candlestick[0].ohlcv.map((v) => ({
-    type,
+    type: data.candlestick[0].type as Candlestick["type"],
     open: Number(v[0]),
     high: Number(v[1]),
     low: Number(v[2]),
