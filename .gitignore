@@ -131,3 +131,6 @@ dist
 
 # build files
 /types/
+
+# npm config file
+.npmrc
