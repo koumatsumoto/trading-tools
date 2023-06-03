@@ -11,6 +11,10 @@
   "bugs": {
     "url": "https://github.com/koumatsumoto/trading-tools/issues"
   },
+  "engines": {
+    "node": ">=20.2.0",
+    "npm": ">=9.6.6"
+  },
   "type": "module",
   "main": "./dist/trading-tools.js",
   "module": "./dist/trading-tools.js",
