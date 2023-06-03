@@ -34,7 +34,7 @@
     "format": "prettier --write --ignore-path .gitignore .",
     "lint": "prettier --check --ignore-path .gitignore .",
     "test": "vitest run",
-    "postinstall": "husky install"
+    "prepare": "husky install"
   },
   "license": "ISC",
   "dependencies": {
