@@ -31,7 +31,7 @@ export class BitbankPublicApi {
     let offset = 0;
 
     while (true) {
-      const fetched = await this.#getTransactions({ pair, page: getTransactionPagingParam(offset, maxTime) });
+      const fetched = await this.#getTransactions(pair, getTransactionPagingParam(offset, maxTime));
       for (const tx of fetched) {
         // API取得したデータは、time昇順降順で並んでいる
         // 順次処理をする中で、minTimeよりも古いものがあればそれ以降全てminTimeより古いため、結果返却して終了する
@@ -70,7 +70,7 @@ export class BitbankPublicApi {
     let offset = 0;
 
     while (true) {
-      const fetched = await this.#getCandlesticks({ pair, type, page: getCandlestickPagingParam(type, offset, end) });
+      const fetched = await this.#getCandlesticks(pair, type, getCandlestickPagingParam(type, offset, end));
       for (const candlestick of fetched) {
         // API取得したデータは、time昇順降順で並んでいる
         // 順次処理をする中で、minTimeよりも古いものがあればそれ以降全てminTimeより古いため、結果返却して終了する
@@ -90,22 +90,14 @@ export class BitbankPublicApi {
     }
   }
 
-  async #getTransactions({ pair, page }: { pair: string; page: string }): Promise<Transaction[]> {
+  async #getTransactions(pair: string, page: string): Promise<Transaction[]> {
     const url = `${this.#baseUrl}/${pair}/transactions/${page}`;
     const result = await axios.get<ApiResponse<GetTransactionsResponseData>>(url).then(responseHandler);
 
     return transformTransactions(result);
   }
 
-  async #getCandlesticks({
-    pair,
-    type,
-    page,
-  }: {
-    pair: string;
-    type: Candlestick["type"];
-    page: string;
-  }): Promise<Candlestick[]> {
+  async #getCandlesticks(pair: string, type: Candlestick["type"], page: string): Promise<Candlestick[]> {
     const url = `${this.#baseUrl}/${pair}/candlestick/${type}/${page}`;
     const result = await axios.get<ApiResponse<GetCandlesticksDataResponseData>>(url).then(responseHandler);
 

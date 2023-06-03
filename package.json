@@ -78,7 +78,7 @@
     ],
     "*.{ts,tsx}": [
       "bash -c tsc",
-      "vitest run related"
+      "vitest related --run"
     ]
   }
 }

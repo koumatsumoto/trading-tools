@@ -39,7 +39,7 @@ export const transformTransactions = (data: GetTransactionsResponseData): Transa
   );
 };
 
-export function getCandlestickPagingParam(type: Candlestick["type"], pageNo: number, baseTime: Date | number): string {
+export function getCandlestickPagingParam(type: Candlestick["type"], pageNo: number, baseTime: number | Date): string {
   switch (type) {
     case "1min":
     case "5min":
