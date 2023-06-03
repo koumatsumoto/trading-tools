@@ -1,5 +1,5 @@
 {
-  "name": "trading-tools",
+  "name": "@koumatsumoto/trading-tools",
   "version": "0.1.0",
   "description": "",
   "author": "",
@@ -23,6 +23,9 @@
     "/dist",
     "/types"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@koumatsumoto"
+  },
   "scripts": {
     "build": "tsc && vite build",
     "format": "prettier --write --ignore-path .gitignore .",
