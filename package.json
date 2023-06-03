@@ -52,7 +52,7 @@
     "vitest": "^0.31.4"
   },
   "prettier": {
-    "printWidth": 140,
+    "printWidth": 120,
     "importOrder": [
       "^[./]"
     ],

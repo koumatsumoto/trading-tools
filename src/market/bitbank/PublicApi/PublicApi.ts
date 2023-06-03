@@ -39,7 +39,15 @@ export class BitbankPublicApi {
     return sortCandlesticksByTimeDesc(candlesticks.slice(-count));
   }
 
-  async #getCandlesticks({ pair, type, page }: { pair: string; type: Candlestick["type"]; page: string }): Promise<Candlestick[]> {
+  async #getCandlesticks({
+    pair,
+    type,
+    page,
+  }: {
+    pair: string;
+    type: Candlestick["type"];
+    page: string;
+  }): Promise<Candlestick[]> {
     const url = `${this.#baseUrl}/${pair}/candlestick/${type}/${page}`;
     const result = await axios.get<ApiResponse<GetCandlesticksDataResponseData>>(url).then(responseHandler);
 
