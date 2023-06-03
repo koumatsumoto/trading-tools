@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/strictest/tsconfig.json",
   "include": ["src"],
   "exclude": ["node_modules"],
   "compilerOptions": {
@@ -8,15 +9,10 @@
     "baseUrl": "./",
     "outDir": "./dist",
     "declarationDir": "./types",
-    "allowJs": false,
     "emitDeclarationOnly": true,
     "declaration": true,
     "declarationMap": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
     "sourceMap": true
   }
 }
