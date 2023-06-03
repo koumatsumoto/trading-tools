@@ -1,6 +1,6 @@
 {
   "name": "@koumatsumoto/trading-tools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "author": "",
   "repository": {
@@ -31,6 +31,7 @@
     "format": "prettier --write --ignore-path .gitignore .",
     "lint": "prettier --check --ignore-path .gitignore .",
     "test": "vitest run",
+    "version:minor": "npm version --no-commit-hooks --no-git-tag-version minor",
     "prepare": "husky install"
   },
   "license": "ISC",
