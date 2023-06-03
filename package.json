@@ -39,6 +39,12 @@
     "prepare": "husky install"
   },
   "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
+    "ts-pattern": "^4.3.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
@@ -68,11 +74,5 @@
     "*.{ts,tsx,html,css,scss,json,yml,yaml,md}": [
       "prettier --write"
     ]
-  },
-  "dependencies": {
-    "axios": "^1.4.0",
-    "date-fns": "^2.30.0",
-    "date-fns-tz": "^2.0.0",
-    "ts-pattern": "^4.3.0"
   }
 }
