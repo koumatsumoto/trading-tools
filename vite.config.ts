@@ -1,4 +1,5 @@
 /// <reference types="vitest" />
+import typescript from "@rollup/plugin-typescript";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
@@ -10,6 +11,7 @@ export default defineConfig({
       fileName: "trading-tools",
     },
   },
+  plugins: [typescript()],
   test: {
     includeSource: ["src/**/*.{js,ts}"],
     setupFiles: ["./vitest.setup.ts"],

@@ -129,8 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# build files
-/types/
-
 # npm config file
 .npmrc

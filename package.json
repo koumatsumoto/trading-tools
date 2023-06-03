@@ -22,10 +22,9 @@
     "import": "./dist/trading-tools.js",
     "require": "./dist/trading-tools.umd.cjs"
   },
-  "types": "./types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "/dist",
-    "/types"
+    "/dist"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@koumatsumoto"
@@ -47,6 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
+    "@rollup/plugin-typescript": "^11.1.1",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@tsconfig/strictest": "^2.0.1",
     "@types/node": "^20.2.5",
