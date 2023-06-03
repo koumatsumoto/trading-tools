@@ -38,17 +38,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@koumatsumoto"
       - uses: actions/cache/restore@v3
         with:
           path: ./dist/
           key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: true
-      - run: |
-          echo @koumatsumoto:registry=https://npm.pkg.github.com/ > .npmrc
-          echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
       - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{github.ref_name}}
-      # use --ignore-scripts to disable prepare script
+      # use --ignore-scripts option to disable prepare script
       - run: npm publish --ignore-scripts
         env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
