@@ -24,13 +24,19 @@ export const transformCandlesticks = (data: GetCandlesticksDataResponseData): Ca
 };
 
 export const transformTransactions = (data: GetTransactionsResponseData): Transaction[] => {
-  return data.transactions.map((v) => ({
-    id: v.transaction_id,
-    side: v.side,
-    price: Number(v.price),
-    amount: Number(v.amount),
-    time: v.executed_at,
-  }));
+  return (
+    data.transactions
+      .map((v) => ({
+        id: v.transaction_id,
+        side: v.side,
+        price: Number(v.price),
+        amount: Number(v.amount),
+        time: v.executed_at,
+      }))
+      // 元々の生データはid昇順（時刻昇順）で並んでいる
+      // ページング処理時の都合上、降順に並び替えて返す
+      .reverse()
+  );
 };
 
 export function getCandlestickPagingParam(type: Candlestick["type"], pageNo: number, baseTime: Date | number): string {
@@ -49,4 +55,8 @@ export function getCandlestickPagingParam(type: Candlestick["type"], pageNo: num
     case "1month":
       return format(subYears(baseTime, pageNo), "yyyy");
   }
+}
+
+export function getTransactionPagingParam(pageNo: number, baseTime: number): string {
+  return format(new Date(subDays(baseTime, pageNo)), "yyyyMMdd");
 }

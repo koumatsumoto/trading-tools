@@ -9,13 +9,7 @@ export type ApiResponse<T> =
     };
 
 export type GetTransactionsResponseData = {
-  transactions: {
-    transaction_id: number;
-    side: "sell" | "buy";
-    price: string;
-    amount: string;
-    executed_at: number;
-  }[];
+  transactions: RawTransaction[];
 };
 
 export type GetCandlesticksDataResponseData = {
@@ -28,4 +22,11 @@ export type GetCandlesticksDataResponseData = {
   timestamp: number;
 };
 
+export type RawTransaction = {
+  transaction_id: number;
+  side: "sell" | "buy";
+  price: string;
+  amount: string;
+  executed_at: number;
+};
 export type OHLCV = [Open: string, High: string, Low: string, Close: string, Volume: string, Timestamp: number];
