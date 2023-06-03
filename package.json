@@ -62,5 +62,11 @@
     "*.{ts,tsx,html,css,scss,json,yml,yaml,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
+    "ts-pattern": "^4.3.0"
   }
 }
