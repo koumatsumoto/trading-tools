@@ -47,6 +47,7 @@ jobs:
       - run: |
           echo @koumatsumoto:registry=https://npm.pkg.github.com/ > .npmrc
           echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
+      - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{github.ref_name}}
       # use --ignore-scripts to disable prepare script
       - run: npm publish --ignore-scripts
         env:
