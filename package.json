@@ -1,8 +1,8 @@
 {
   "name": "@koumatsumoto/trading-tools",
   "version": "0.2.0",
-  "description": "",
-  "author": "",
+  "description": "The personal module to develop my trading program",
+  "author": "Kou Matsumoto",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/koumatsumoto/trading-tools.git"
