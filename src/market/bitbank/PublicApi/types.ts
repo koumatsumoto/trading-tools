@@ -22,8 +22,10 @@ export type GetCandlesticksDataResponseData = {
   candlestick: [
     {
       type: string;
-      ohlcv: [string, string, string, string, string, number][];
+      ohlcv: OHLCV[];
     }
   ];
   timestamp: number;
 };
+
+export type OHLCV = [Open: string, High: string, Low: string, Close: string, Volume: string, Timestamp: number];

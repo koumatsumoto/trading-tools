@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { TestHelpers } from "../../../testing";
 import { BitbankPublicApi } from "./PublicApi";
+import { OHLCV } from "./types";
 
 describe("BitbankPublicApi", () => {
   const api = new BitbankPublicApi();
@@ -40,44 +41,77 @@ describe("BitbankPublicApi", () => {
   });
 
   test("getCandlesticks", async () => {
-    TestHelpers.mockGetApi("https://public.bitbank.cc/btc_jpy/candlestick/1day/2022", (_, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json({
-          success: 1,
-          data: {
-            candlestick: [
-              {
-                type: "1day",
-                ohlcv: [["1", "2", "3", "4", "5", timestamp("2022-01-01T00:00:00.000Z")]],
-              },
-            ],
-            timestamp: timestamp("2022-01-01T00:00:00.000Z"),
-          },
-        })
-      );
+    // ページングのテストのために3日分mockする
+    setMockCandlestickApi("20220102", [
+      createOHLCVTestData("2022-01-02T10:00:00.000Z"),
+      createOHLCVTestData("2022-01-02T09:00:00.000Z"),
+      createOHLCVTestData("2022-01-02T08:00:00.000Z"),
+    ]);
+    setMockCandlestickApi("20220101", [
+      createOHLCVTestData("2022-01-01T10:00:00.000Z"),
+      createOHLCVTestData("2022-01-01T09:00:00.000Z"),
+      createOHLCVTestData("2022-01-01T08:00:00.000Z"),
+    ]);
+    setMockCandlestickApi("20211231", [
+      createOHLCVTestData("2021-12-31T10:00:00.000Z"),
+      createOHLCVTestData("2021-12-31T09:00:00.000Z"),
+      createOHLCVTestData("2021-12-31T08:00:00.000Z"),
+    ]);
+
+    const type = "1min";
+    const start = timestamp("2021-12-31T09:00:00.000Z");
+    const end = timestamp("2022-01-02T09:00:00.000Z");
+    const res = await api.getCandlesticks({ pair, type, start, end });
+    // start, endでそれぞれ1件ずつ除外されている
+    expect(res).toHaveLength(7);
+    expect(res.at(0)).toStrictEqual({
+      type,
+      open: 1,
+      high: 2,
+      low: 3,
+      close: 4,
+      volume: 5,
+      time: end,
+    });
+    expect(res.at(-1)).toStrictEqual({
+      type: "1min",
+      open: 1,
+      high: 2,
+      low: 3,
+      close: 4,
+      volume: 5,
+      time: start,
     });
 
-    const res = await api.getCandlesticks({
-      pair,
-      type: "1day",
-      count: 1,
-      end: new Date("2022-03-24T00:00:00.000Z"),
-    });
-    expect(res).toStrictEqual([
-      {
-        type: "1day",
-        open: 1,
-        high: 2,
-        low: 3,
-        close: 4,
-        volume: 5,
-        time: timestamp("2022-01-01T00:00:00.000Z"),
-      },
-    ]);
+    // maxCountの指定がある場合はその個数まで取得して返却する
+    expect(await api.getCandlesticks({ pair, type, end, start, maxCount: 4 })).toHaveLength(4);
   });
 });
 
 function timestamp(date: string): number {
   return new Date(date).getTime();
+}
+
+function setMockCandlestickApi(page: string, ohlcv: OHLCV[]) {
+  TestHelpers.mockGetApi(`https://public.bitbank.cc/btc_jpy/candlestick/1min/${page}`, (_, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        success: 1,
+        data: {
+          candlestick: [
+            {
+              type: "1min",
+              ohlcv: ohlcv,
+            },
+          ],
+          timestamp: timestamp("2022-01-01T00:00:00.000Z"), // 使われない
+        },
+      })
+    );
+  });
+}
+
+function createOHLCVTestData(datetime: string): OHLCV {
+  return ["1", "2", "3", "4", "5", timestamp(datetime)];
 }

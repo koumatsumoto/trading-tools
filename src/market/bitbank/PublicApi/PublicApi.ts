@@ -1,7 +1,8 @@
 import axios from "axios";
 import { format } from "date-fns";
+import { isNumber } from "remeda";
 import { type Candlestick, type Transaction } from "../../base";
-import { sortCandlesticksByTimeDesc, startTimeOfCandlestick } from "../util";
+import { startTimeOfCandlestick } from "../util";
 import { responseHandler, getCandlestickPagingParam, transformTransactions, transformCandlesticks } from "./functions";
 import type { ApiResponse, GetCandlesticksDataResponseData, GetTransactionsResponseData } from "./types";
 
@@ -18,25 +19,40 @@ export class BitbankPublicApi {
   async getCandlesticks({
     pair,
     type,
-    count,
-    end = new Date(),
+    start = 0,
+    end = Date.now(),
+    maxCount = 100,
   }: {
     pair: string;
     type: Candlestick["type"];
-    count: number;
-    end: Date | number;
+    start?: Date | number;
+    end?: Date | number;
+    maxCount?: number;
   }): Promise<Candlestick[]> {
-    const candlesticks: Candlestick[] = [];
-    const endTime = startTimeOfCandlestick(type, end);
+    const result: Candlestick[] = [];
+    const minTime = isNumber(start) ? start : start.getTime();
+    const maxTime = startTimeOfCandlestick(type, end);
     let offset = 0;
 
-    while (candlesticks.length < count) {
+    while (true) {
       const fetched = await this.#getCandlesticks({ pair, type, page: getCandlestickPagingParam(type, offset, end) });
-      candlesticks.unshift(...fetched.filter((c) => c.time <= endTime));
+      for (const candlestick of fetched) {
+        // API取得したcandlestickは、time降順で並んでいる
+        // 順次処理をする中で、minTimeよりも古いものがあればそれ以降全てminTimeより古いため、結果返却して終了する
+        if (candlestick.time < minTime) {
+          return result;
+        }
+        // 日か年のページ単位でAPI取得するため、同じページ内にmaxTimeよりも新しいcandlestickがあり得る
+        // time降順で並んでいるため、次の順次処理ではmaxTimeよりも古い場合もあるため、結果返却せず続行する
+        if (candlestick.time <= maxTime) {
+          result.push(candlestick);
+        }
+        if (maxCount <= result.length) {
+          return result;
+        }
+      }
       offset++;
     }
-
-    return sortCandlesticksByTimeDesc(candlesticks.slice(-count));
   }
 
   async #getCandlesticks({
