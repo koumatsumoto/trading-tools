@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{github.ref_name}}
       - run: npm run build
       - run: |
