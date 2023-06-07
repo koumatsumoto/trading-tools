@@ -1,4 +1,3 @@
-import * as console from "console";
 import { filter, map, Observable, Subject } from "rxjs";
 import { io, type Socket } from "socket.io-client";
 import { Transaction } from "../../base";
@@ -33,7 +32,6 @@ export class BitbankPublicStream {
       console.error("Socket errored", error);
     });
     this.#socket.on("message", (data) => {
-      console.log("message", data);
       this.#message$.next(data);
     });
   }
