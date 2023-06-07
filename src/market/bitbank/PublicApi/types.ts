@@ -29,4 +29,5 @@ export type RawTransaction = {
   amount: string;
   executed_at: number;
 };
+
 export type OHLCV = [Open: string, High: string, Low: string, Close: string, Volume: string, Timestamp: number];
