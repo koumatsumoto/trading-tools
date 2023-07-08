@@ -36,7 +36,6 @@ runs:
         echo "package_version=`node -p 'require(\"./package.json\").version'`" >> "$GITHUB_ENV"
 
     - name: Create Job Summary
-      shell: bash
       uses: actions/github-script@v6
       with:
         github-token: ${{ inputs.auth_token }}
