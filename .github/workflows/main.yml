@@ -27,6 +27,21 @@ jobs:
   deploy:
     if: contains(github.ref, 'tags/v')
     needs: build
-    uses: ./.github/workflows/publish.yml
-    with:
-      version: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - uses: actions/cache/restore@v3
+        with:
+          path: ./dist/
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-
+          fail-on-cache-miss: true
+
+      - uses: ./.github/actions/publish-github-packages-npm
+        with:
+          auth_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ github.ref_name }}

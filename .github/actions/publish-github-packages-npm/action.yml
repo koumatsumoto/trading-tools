@@ -1,0 +1,52 @@
+name: Publish GitHub Packages
+description: Action to publish npm packages to GitHub Packages
+
+inputs:
+  version:
+    description: "Version of npm package"
+    required: true
+  auth_token:
+    description: "Pass secrets.GITHUB_TOKEN"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure .npmrc to deploy GitHub Packages
+      shell: bash
+      run: |
+        cat << EOF > .npmrc
+        @koumatsumoto:registry=https://npm.pkg.github.com/
+        //npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN
+        EOF
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.auth_token }}
+
+    - name: Publish package
+      shell: bash
+      run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{ inputs.version }} && npm publish --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.auth_token }}
+
+    - name: Get package name and version
+      shell: bash
+      id: package_info
+      run: |
+        echo "package_name=`node -p 'require(\"./package.json\").name'`" >> "$GITHUB_ENV"
+        echo "package_version=`node -p 'require(\"./package.json\").version'`" >> "$GITHUB_ENV"
+
+    - name: Create Job Summary
+      shell: bash
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ inputs.auth_token }}
+        script: |
+          const heading = 'New GitHub Packages'
+          const output = `
+            *New Version* 🤖 *${{ inputs.version }}*\n
+            Run \`npm install ${{ env.package_name }}/${{ env.package_version }}\`\n
+          `;
+          await core.summary
+            .addHeading(heading)
+            .addRaw(output)
+            .write()
