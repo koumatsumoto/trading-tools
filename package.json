@@ -19,8 +19,13 @@
   "main": "./dist/trading-tools.js",
   "module": "./dist/trading-tools.js",
   "exports": {
-    "import": "./dist/trading-tools.js",
-    "require": "./dist/trading-tools.umd.cjs"
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/trading-tools.js"
+      },
+      "require": "./dist/trading-tools.umd.cjs"
+    }
   },
   "types": "./dist/index.d.ts",
   "files": [
