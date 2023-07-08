@@ -34,3 +34,16 @@ jobs:
       - run: npm publish --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const heading = 'New GitHub Packages'
+            const output = `
+              *Version: ${{ inputs.version }}\n*
+            `;           
+            await core.summary
+              .addHeading(heading)
+              .addRaw(output)
+              .write()
