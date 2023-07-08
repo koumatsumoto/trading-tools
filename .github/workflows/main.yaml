@@ -15,9 +15,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      # use legacy-peer-deps option to resolve the error below
-      # npm ERR! peerOptional typescript@">= 4.4.x <= 5.0.x" from msw@1.2.1
-      - run: npm ci --ignore-scripts --legacy-peer-deps
+      - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm run test
       - run: npm run build
