@@ -10,12 +10,13 @@ on:
       github-token:
         required: true
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish-to-github-packages:
-    if: contains(github.ref, 'tags/v')
-    needs: build
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/setup-node@v3
         with:

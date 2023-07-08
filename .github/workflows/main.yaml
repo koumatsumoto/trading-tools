@@ -39,5 +39,4 @@ jobs:
       - uses: ./.github/workflows/publish.yaml
         with:
           version: ${{ github.ref_name }}
-        secrets:
-          github-token: ${{ secrets.GITHUB_TOKEN  }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
