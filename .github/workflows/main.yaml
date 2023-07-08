@@ -28,24 +28,15 @@ jobs:
     if: contains(github.ref, 'tags/v')
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@koumatsumoto"
       - uses: actions/cache/restore@v3
         with:
           path: ./dist/
           key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: true
-      - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{github.ref_name}}
-      # use --ignore-scripts option to disable prepare script
-      - run: npm publish --ignore-scripts
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ./.github/workflows/publish
+        with:
+          version: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN  }}

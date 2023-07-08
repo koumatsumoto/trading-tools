@@ -1,0 +1,33 @@
+name: Publish to GitHub Packages
+
+permissions:
+  contents: read
+  packages: write
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+
+jobs:
+  publish-to-github-packages:
+    if: contains(github.ref, 'tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@koumatsumoto"
+      - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{inputs.version}}
+      - run: npm publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.token }}
