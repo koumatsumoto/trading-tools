@@ -15,7 +15,7 @@ permissions:
   packages: write
 
 jobs:
-  publish-to-github-packages:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
