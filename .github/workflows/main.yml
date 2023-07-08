@@ -27,9 +27,8 @@ jobs:
   deploy:
     if: contains(github.ref, 'tags/v')
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/workflows/publish.yml
-        with:
-          version: ${{ github.ref_name }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: ./.github/workflows/publish.yml
+    with:
+      version: ${{ github.ref_name }}
+    secrets:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
