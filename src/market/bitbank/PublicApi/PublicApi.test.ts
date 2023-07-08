@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { TestHelpers } from "../../../testing";
 import { BitbankPublicApi } from "./PublicApi";
-import { OHLCV, RawTransaction } from "./types";
+import type { OHLCV, RawTransaction } from "./types";
 
 describe("BitbankPublicApi", () => {
   const api = new BitbankPublicApi();

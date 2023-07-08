@@ -5,7 +5,7 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "baseUrl": "./",
     "outDir": "./dist",
     "emitDeclarationOnly": true,
@@ -13,6 +13,7 @@
     "declarationMap": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
     "sourceMap": true
   }
 }

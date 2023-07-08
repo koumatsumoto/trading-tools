@@ -1,5 +1,5 @@
-import { type Path, type ResponseResolver, rest, RestContext, RestRequest } from "msw";
-import { setupServer } from "msw/node";
+import { type Path, type ResponseResolver, rest, type RestContext, type RestRequest } from "msw";
+import { type SetupServer, setupServer } from "msw/node";
 
 const msw = setupServer();
 
@@ -7,7 +7,10 @@ function mockGetApi(path: Path, resolver: ResponseResolver<RestRequest, RestCont
   msw.use(rest.get(path, resolver));
 }
 
-export const TestHelpers = {
+export const TestHelpers: {
+  msw: SetupServer;
+  mockGetApi: typeof mockGetApi;
+} = {
   msw,
   mockGetApi,
-} as const;
+};
