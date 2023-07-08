@@ -41,7 +41,7 @@ jobs:
           script: |
             const heading = 'New GitHub Packages'
             const output = `
-              *🤖 Version: ${{ inputs.version }}*\n
+              *New Version* 🤖 \`${{ inputs.version }}\`\n
             `;
             await core.summary
               .addHeading(heading)
