@@ -36,7 +36,7 @@ jobs:
           key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: true
-      - uses: ./.github/workflows/publish
+      - uses: ./.github/workflows/publish.yaml
         with:
           version: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN  }}
