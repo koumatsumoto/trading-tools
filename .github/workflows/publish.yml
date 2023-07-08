@@ -54,8 +54,8 @@ jobs:
           script: |
             const heading = 'New GitHub Packages'
             const output = `
-              *New Version* 🤖 \`${{ inputs.version }}\`\n
-              \`npm install ${{ env.package_name }}/${{ env.package_version }}\`\n
+              *New Version* 🤖 *${{ inputs.version }}*\n
+              Run \`npm install ${{ env.package_name }}/${{ env.package_version }}\`\n
             `;
             await core.summary
               .addHeading(heading)
