@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+    tags: ["v**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
+      - uses: actions/cache/save@v3
+        with:
+          path: ./dist/
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
+
+  deploy:
+    if: contains(github.ref, 'tags/v')
+    needs: build
+    uses: ./.github/workflows/publish.yml
+    with:
+      version: ${{ github.ref_name }}
