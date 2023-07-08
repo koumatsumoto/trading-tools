@@ -30,5 +30,3 @@ jobs:
     uses: ./.github/workflows/publish.yml
     with:
       version: ${{ github.ref_name }}
-    secrets:
-      github_token: ${{ secrets.GITHUB_TOKEN }}

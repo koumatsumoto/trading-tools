@@ -6,9 +6,6 @@ on:
       version:
         required: true
         type: string
-    secrets:
-      github_token:
-        required: true
 
 permissions:
   contents: read
@@ -36,4 +33,4 @@ jobs:
       - run: npm version --no-commit-hooks --no-git-tag-version --allow-same-version ${{inputs.version}}
       - run: npm publish --ignore-scripts
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.github_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
