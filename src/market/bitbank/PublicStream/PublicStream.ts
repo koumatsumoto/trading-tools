@@ -1,6 +1,6 @@
 import { filter, map, Observable, Subject } from "rxjs";
 import { io, type Socket } from "socket.io-client";
-import { Transaction } from "../../base";
+import { Transaction } from "../../../interfaces";
 import { transformTransactions } from "../PublicApi/functions";
 import { RawTransaction } from "../PublicApi/types";
 

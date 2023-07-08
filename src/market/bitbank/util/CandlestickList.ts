@@ -1,4 +1,4 @@
-import { type Candlestick } from "../../base";
+import { type Candlestick } from "../../../interfaces";
 import { nextStartTimeOfCandlestick } from "./nextStartTimeOfCandlestick";
 import { sortCandlesticksByTimeDesc } from "./sortCandlesticksByTimeDesc";
 import { startTimeOfCandlestick } from "./startTimeOfCandlestick";

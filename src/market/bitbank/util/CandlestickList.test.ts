@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import type { Candlestick } from "../../base";
+import type { Candlestick } from "../../../interfaces";
 import { CandlestickList } from "./CandlestickList";
 
 describe("CandlestickList", () => {

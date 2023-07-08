@@ -1,7 +1,7 @@
 import { setTimeout } from "node:timers/promises";
 import { of } from "rxjs";
 import { describe, expect, test, vi } from "vitest";
-import { Candlestick, Transaction } from "../../base";
+import { Candlestick, Transaction } from "../../../interfaces";
 import { BitbankMarket } from "./BitbankMarket";
 
 describe("BitbankMarket", () => {

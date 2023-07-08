@@ -1,6 +1,6 @@
 import type { AxiosResponse } from "axios";
 import { format, subDays, subYears } from "date-fns";
-import type { Candlestick, Transaction } from "../../base";
+import type { Candlestick, Transaction } from "../../../interfaces";
 import type { ApiResponse, GetCandlesticksDataResponseData, GetTransactionsResponseData } from "./types";
 
 export const responseHandler = <T>(response: AxiosResponse<ApiResponse<T>>): T => {

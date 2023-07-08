@@ -1,4 +1,4 @@
-import { Candlestick } from "../../base";
+import { Candlestick } from "../../../interfaces";
 import { startTimeOfCandlestick } from "./startTimeOfCandlestick";
 
 // キャンドルスティック同士の間隔

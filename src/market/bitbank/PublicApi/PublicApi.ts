@@ -1,6 +1,6 @@
 import axios from "axios";
 import { isNumber } from "remeda";
-import { type Candlestick, type Transaction } from "../../base";
+import { type Candlestick, type Transaction } from "../../../interfaces";
 import { startTimeOfCandlestick } from "../util";
 import {
   responseHandler,

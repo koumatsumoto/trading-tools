@@ -1,5 +1,5 @@
 import { Observable, Subject } from "rxjs";
-import { Candlestick, Market } from "../../base";
+import { Candlestick, Market } from "../../../interfaces";
 import { BitbankPublicApi } from "../PublicApi/PublicApi";
 import { BitbankPublicStream } from "../PublicStream/PublicStream";
 import { CandlestickList } from "../util/CandlestickList";
