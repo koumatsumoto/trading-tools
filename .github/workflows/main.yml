@@ -44,7 +44,7 @@ jobs:
       - uses: ./.github/actions/publish-github-packages-npm
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
-          version: v{{ steps.package_info.outputs.package_version }}-dev-${{ steps.package_info.outputs.git_commit_hash_short }}
+          version: v${{ steps.package_info.outputs.package_version }}-dev-${{ steps.package_info.outputs.git_commit_hash_short }}
 
   publish-production:
     if: contains(github.ref, 'tags/v')
