@@ -25,7 +25,7 @@ jobs:
           key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
 
   publish-develop:
-    #    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     steps:
