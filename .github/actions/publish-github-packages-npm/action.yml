@@ -28,7 +28,7 @@ runs:
       env:
         NODE_AUTH_TOKEN: ${{ inputs.auth_token }}
 
-    - uses: ./github/actions/get-package-info
+    - uses: ./.github/actions/get-package-info
       id: package_info
 
     - name: Create Job Summary
