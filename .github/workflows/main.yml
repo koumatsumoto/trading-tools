@@ -24,16 +24,13 @@ jobs:
           path: ./dist/
           key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
 
-  deploy:
-    if: contains(github.ref, 'tags/v')
+  publish-develop:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
       - uses: actions/cache/restore@v3
         with:
           path: ./dist/
@@ -41,7 +38,35 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: true
 
+      - uses: ./.github/actions/get-package-info
+        id: package_info
+
       - uses: ./.github/actions/publish-github-packages-npm
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ github.ref_name }}
+          version: v${{ steps.package_info.outputs.package_version }}-dev-${{ steps.package_info.outputs.git_commit_hash_short }}
+
+  publish-production:
+    if: contains(github.ref, 'tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: actions/cache/restore@v3
+        with:
+          path: ./dist/
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-
+          fail-on-cache-miss: true
+
+      - name: Trim v of version string
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "version=${TAG#v}" >> $GITHUB_OUTPUT
+        id: get_version_string
+
+      - uses: ./.github/actions/publish-github-packages-npm
+        with:
+          auth_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ steps.get_version_string.outputs.version }}
