@@ -60,7 +60,13 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: true
 
+      - name: Trim v of version string
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "version=${TAG#v}" >> $GITHUB_OUTPUT
+        id: get_version_string
+
       - uses: ./.github/actions/publish-github-packages-npm
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ github.ref_name }}
+          version: ${{ steps.get_version_string.outputs.version }}
