@@ -38,7 +38,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-
           fail-on-cache-miss: true
 
-      - uses: ./github/actions/get-package-info
+      - uses: ./.github/actions/get-package-info
         id: package_info
 
       - uses: ./.github/actions/publish-github-packages-npm
