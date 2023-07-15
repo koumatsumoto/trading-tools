@@ -41,7 +41,7 @@ jobs:
       - uses: koumatsumoto/get-npm-package-info-action@v1
         id: package_info
 
-      - uses: ./.github/actions/publish-github-packages-npm
+      - uses: koumatsumoto/publish-github-packages-npm@v1
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
           version: v${{ steps.package_info.outputs.package_version }}-dev-${{ steps.package_info.outputs.git_commit_hash_short }}
@@ -66,7 +66,7 @@ jobs:
           echo "version=${TAG#v}" >> $GITHUB_OUTPUT
         id: get_version_string
 
-      - uses: ./.github/actions/publish-github-packages-npm
+      - uses: koumatsumoto/publish-github-packages-npm@v1
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
           version: ${{ steps.get_version_string.outputs.version }}
