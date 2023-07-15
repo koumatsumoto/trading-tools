@@ -12,7 +12,11 @@ export default defineConfig({
       fileName: "index",
     },
   },
-  plugins: [typescript()],
+  plugins: [
+    typescript({
+      exclude: ["**/*.test.ts"],
+    }),
+  ],
   test: {
     includeSource: ["src/**/*.{js,ts}"],
     setupFiles: ["./vitest.setup.ts"],
