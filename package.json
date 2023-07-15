@@ -36,7 +36,7 @@
     "format": "prettier --write --ignore-path .gitignore .",
     "lint": "prettier --check --ignore-path .gitignore .",
     "test": "vitest run",
-    "NOTE: `|| true` is used to avoid errors at npm publish": "ignore command errors to the bug of https://github.com/npm/cli/issues/3707",
+    "NOTE: `|| true` is used to resolve errors at npm publish": "ignore command errors to the bug of https://github.com/npm/cli/issues/3707",
     "prepare": "husky install || true"
   },
   "license": "ISC",
