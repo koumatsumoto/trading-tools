@@ -1,4 +1,4 @@
-interface Candlestick {
+export interface Candlestick {
   readonly open: number;
   readonly high: number;
   readonly low: number;
@@ -7,7 +7,7 @@ interface Candlestick {
   readonly time: number;
 }
 
-interface Transaction {
+export interface Transaction {
   price: number;
   amount: number;
   time: number;
@@ -26,55 +26,54 @@ export class CandlestickGenerator {
   readonly #getStartTime: (t: number) => number;
   #data: Candlestick[];
 
+  get data(): Readonly<Candlestick[]> {
+    return this.#data;
+  }
+
   constructor(params: Params) {
+    this.#validateParams(params);
     this.#maxLength = params.maxLength;
     this.#maxInterval = params.maxInterval;
     this.#getStartTime = params.getStartTime;
-    this.#data = params.initialData;
-    this.#validate();
+    this.#data = this.#slice(params.initialData);
+    this.#validateData();
   }
 
   add(input: Transaction): void {
-    let latest = this.#data[0];
+    const time = this.#getStartTime(input.time);
 
-    // まだCandlestickが無くて初めて作られる場合
-    if (!latest) {
+    if (!this.#data[0]) {
       this.#data.push({
         open: input.price,
         high: input.price,
         low: input.price,
         close: input.price,
         volume: input.amount,
-        time: input.time,
+        time: time,
       });
       return;
     }
 
-    const time = this.#getStartTime(input.time);
+    let latest = this.#data[0];
 
-    // 過去分のキャンドルスティックは更新できない仕様にしている
     if (time < latest.time) {
       throw new Error("Time should be newer than latest candlestick");
     }
 
-    // 歯抜けにならないように不足分のCandlestickを全て作成する
-    while (latest!.time < time) {
+    while (latest.time < time) {
       const emptyToFill: Candlestick = {
-        open: latest!.close,
-        high: latest!.close,
-        low: latest!.close,
-        close: latest!.close,
+        open: latest.close,
+        high: latest.close,
+        low: latest.close,
+        close: latest.close,
         volume: 0,
-        time: this.#getNextStartTime(latest!.time),
+        time: this.#getNextStartTime(latest.time),
       };
       this.#data.unshift(emptyToFill);
       latest = emptyToFill;
     }
 
-    // キャンドルスティックの本数を最大長に合わせる
-    this.#data = this.#data.slice(0, this.#maxLength);
-
-    // 最新のCandlestickに対して入力の差分を反映
+    this.#data = this.#slice(this.#data);
     this.#data[0] = {
       open: latest!.open,
       high: Math.max(latest!.high, input.price),
@@ -85,10 +84,20 @@ export class CandlestickGenerator {
     };
   }
 
-  #validate(): void {
-    // このclassで管理されるキャンドルスティックのデータに対して以下のバリデーションをする
-    //   - 全てのtimeが正しい値であること
-    //   - 全てのtimeが隙間なく並んでいること
+  #slice(data: Candlestick[]): Candlestick[] {
+    return data.slice(0, this.#maxLength);
+  }
+
+  #validateParams(params: Params): void {
+    if (params.maxLength < 1) {
+      throw new Error("maxLength should be grater than 0");
+    }
+    if (params.maxInterval < 1) {
+      throw new Error("maxInterval should be grater than 0");
+    }
+  }
+
+  #validateData(): void {
     for (let i = 0; i < this.#data.length; i++) {
       const v = this.#data[i]!;
       if (v.time !== this.#getStartTime(v.time)) {
