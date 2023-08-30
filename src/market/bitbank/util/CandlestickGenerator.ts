@@ -1,10 +1,10 @@
 export interface Candlestick {
-  readonly open: number;
-  readonly high: number;
-  readonly low: number;
-  readonly close: number;
-  readonly volume: number;
-  readonly time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  time: number;
 }
 
 export interface Transaction {
@@ -26,7 +26,7 @@ export class CandlestickGenerator {
   readonly #getStartTime: (t: number) => number;
   #data: Candlestick[];
 
-  get data(): Readonly<Candlestick[]> {
+  get data(): Candlestick[] {
     return this.#data;
   }
 

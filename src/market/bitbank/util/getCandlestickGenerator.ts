@@ -1,4 +1,6 @@
-import type { Candlestick } from "../../../interfaces";
+// bitbank用のCandlestickGeneratorの設定
+import type { Candlestick, CandlestickType } from "../../../interfaces";
+import { CandlestickGenerator } from "./CandlestickGenerator";
 import { startTimeOfCandlestick } from "./startTimeOfCandlestick";
 
 // キャンドルスティック同士の間隔
@@ -16,9 +18,13 @@ const INTERVAL = {
   "1day": 24 * 60 * 60 * 1000,
   "1week": 7 * 24 * 60 * 60 * 1000,
   "1month": 31 * 24 * 60 * 60 * 1000,
-} as const satisfies Record<Candlestick["type"], number>;
+} as const satisfies Record<CandlestickType, number>;
 
-export function nextStartTimeOfCandlestick(type: Candlestick["type"], time: number) {
-  const current = startTimeOfCandlestick(type, time);
-  return startTimeOfCandlestick(type, current + INTERVAL[type]);
+export function getCandlestickGenerator(type: CandlestickType, initialData: Candlestick[]): CandlestickGenerator {
+  return new CandlestickGenerator({
+    initialData,
+    getStartTime: (t: number) => startTimeOfCandlestick(type, t),
+    maxInterval: INTERVAL[type],
+    maxLength: 50,
+  });
 }

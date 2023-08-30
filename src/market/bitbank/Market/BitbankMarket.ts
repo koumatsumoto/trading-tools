@@ -1,10 +1,11 @@
 import { Observable, Subject } from "rxjs";
-import type { Candlestick, Market } from "../../../interfaces";
+import type { CandlestickType } from "../../../interfaces";
 import { BitbankPublicApi } from "../PublicApi/PublicApi";
 import { BitbankPublicStream } from "../PublicStream/PublicStream";
-import { CandlestickList } from "../util/CandlestickList";
+import type { Candlestick } from "../util/CandlestickGenerator";
+import { getCandlestickGenerator } from "../util/getCandlestickGenerator";
 
-export class BitbankMarket implements Market {
+export class BitbankMarket {
   readonly #pair: string;
   readonly #publicApi: BitbankPublicApi;
   readonly #publicStream: BitbankPublicStream;
@@ -23,7 +24,7 @@ export class BitbankMarket implements Market {
     this.#publicStream = publicStream ?? new BitbankPublicStream();
   }
 
-  subscribeCandlestick(type: Candlestick["type"], length: number): Observable<Candlestick[]> {
+  subscribeCandlestick(type: CandlestickType, length: number): Observable<Candlestick[]> {
     const subject = new Subject<Candlestick[]>();
     this.#publicApi
       .getCandlesticks({
@@ -32,13 +33,13 @@ export class BitbankMarket implements Market {
         maxCount: length,
       })
       .then((cs) => {
-        const list = new CandlestickList(type, cs);
-        subject.next(list.getData());
+        const generator = getCandlestickGenerator(type, cs);
+        subject.next(generator.data);
 
         this.#publicStream.transactions({ pair: this.#pair }).subscribe((txs) => {
           txs.forEach((tx) => {
-            list.applyTransaction(tx);
-            subject.next(list.getData());
+            generator.add(tx);
+            subject.next(generator.data);
           });
         });
       })

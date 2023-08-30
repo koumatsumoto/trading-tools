@@ -65,8 +65,10 @@ export class BitbankPublicApi {
     maxCount?: number;
   }): Promise<Candlestick[]> {
     const result: Candlestick[] = [];
-    const minTime = isNumber(start) ? start : start.getTime();
-    const maxTime = startTimeOfCandlestick(type, end);
+    const startTime = isNumber(start) ? start : start.getTime();
+    const endTime = isNumber(end) ? end : end.getTime();
+    const minTime = startTime;
+    const maxTime = startTimeOfCandlestick(type, endTime);
     let offset = 0;
 
     while (true) {

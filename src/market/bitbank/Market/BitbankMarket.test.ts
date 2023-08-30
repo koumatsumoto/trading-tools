@@ -1,7 +1,8 @@
 import { setTimeout } from "node:timers/promises";
 import { of } from "rxjs";
 import { describe, expect, test, vi } from "vitest";
-import type { Candlestick, Transaction } from "../../../interfaces";
+import type { Transaction } from "../../../interfaces";
+import type { Candlestick } from "../util/CandlestickGenerator";
 import { BitbankMarket } from "./BitbankMarket";
 
 describe("BitbankMarket", () => {
@@ -37,7 +38,6 @@ function timestamp(date: string): number {
 function createCandlesticksTestData(): Candlestick[] {
   return [
     {
-      type: "1day",
       open: 1,
       high: 2,
       low: 3,

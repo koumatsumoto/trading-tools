@@ -1,5 +1,18 @@
+export type CandlestickType =
+  | "1min"
+  | "5min"
+  | "15min"
+  | "30min"
+  | "1hour"
+  | "4hour"
+  | "8hour"
+  | "12hour"
+  | "1day"
+  | "1week"
+  | "1month";
+
 export type Candlestick = {
-  type: "1min" | "5min" | "15min" | "30min" | "1hour" | "4hour" | "8hour" | "12hour" | "1day" | "1week" | "1month";
+  type: CandlestickType;
   open: number;
   high: number;
   low: number;
