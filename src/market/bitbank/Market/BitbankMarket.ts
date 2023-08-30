@@ -1,8 +1,7 @@
 import { Observable, Subject } from "rxjs";
-import type { CandlestickType } from "../../../interfaces";
+import type { Candlestick, CandlestickType } from "../../../interfaces";
 import { BitbankPublicApi } from "../PublicApi/PublicApi";
 import { BitbankPublicStream } from "../PublicStream/PublicStream";
-import type { Candlestick } from "../util/CandlestickGenerator";
 import { getCandlestickGenerator } from "../util/getCandlestickGenerator";
 
 export class BitbankMarket {

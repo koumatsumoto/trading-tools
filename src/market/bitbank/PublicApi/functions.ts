@@ -1,6 +1,6 @@
 import type { AxiosResponse } from "axios";
 import { format, subDays, subYears } from "date-fns";
-import type { Candlestick, Transaction } from "../../../interfaces";
+import type { Candlestick, CandlestickType, Transaction } from "../../../interfaces";
 import type { ApiResponse, GetCandlesticksDataResponseData, GetTransactionsResponseData } from "./types";
 
 export const responseHandler = <T>(response: AxiosResponse<ApiResponse<T>>): T => {
@@ -13,7 +13,7 @@ export const responseHandler = <T>(response: AxiosResponse<ApiResponse<T>>): T =
 
 export const transformCandlesticks = (data: GetCandlesticksDataResponseData): Candlestick[] => {
   return data.candlestick[0].ohlcv.map((v) => ({
-    type: data.candlestick[0].type as Candlestick["type"],
+    type: data.candlestick[0].type as CandlestickType,
     open: Number(v[0]),
     high: Number(v[1]),
     low: Number(v[2]),
@@ -39,7 +39,7 @@ export const transformTransactions = (data: GetTransactionsResponseData): Transa
   );
 };
 
-export function getCandlestickPagingParam(type: Candlestick["type"], pageNo: number, baseTime: number | Date): string {
+export function getCandlestickPagingParam(type: CandlestickType, pageNo: number, baseTime: number | Date): string {
   switch (type) {
     case "1min":
     case "5min":

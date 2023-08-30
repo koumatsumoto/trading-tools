@@ -1,6 +1,6 @@
 import axios from "axios";
 import { isNumber } from "remeda";
-import { type Candlestick, type Transaction } from "../../../interfaces";
+import type { Candlestick, CandlestickType, Transaction } from "../../../interfaces";
 import { startTimeOfCandlestick } from "../util";
 import {
   responseHandler,
@@ -59,7 +59,7 @@ export class BitbankPublicApi {
     maxCount = 100,
   }: {
     pair: string;
-    type: Candlestick["type"];
+    type: CandlestickType;
     start?: Date | number;
     end?: Date | number;
     maxCount?: number;
@@ -99,7 +99,7 @@ export class BitbankPublicApi {
     return transformTransactions(result);
   }
 
-  async #getCandlesticks(pair: string, type: Candlestick["type"], page: string): Promise<Candlestick[]> {
+  async #getCandlesticks(pair: string, type: CandlestickType, page: string): Promise<Candlestick[]> {
     const url = `${this.#baseUrl}/${pair}/candlestick/${type}/${page}`;
     const result = await axios.get<ApiResponse<GetCandlesticksDataResponseData>>(url).then(responseHandler);
 

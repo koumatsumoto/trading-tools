@@ -1,10 +1,10 @@
 export interface Candlestick {
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-  time: number;
+  readonly open: number;
+  readonly high: number;
+  readonly low: number;
+  readonly close: number;
+  readonly volume: number;
+  readonly time: number;
 }
 
 export interface Transaction {
