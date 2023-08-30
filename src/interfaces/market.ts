@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
-import type { Candlestick } from "./models";
+import type { Candlestick, CandlestickType } from "./models";
 
 export interface Market {
-  subscribeCandlestick(type: Candlestick["type"], length: number): Observable<Candlestick[]>;
+  subscribeCandlestick(type: CandlestickType, length: number): Observable<Candlestick[]>;
 }

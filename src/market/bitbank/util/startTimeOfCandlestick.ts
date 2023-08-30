@@ -15,9 +15,9 @@ import {
 } from "date-fns";
 import { getTimezoneOffset } from "date-fns-tz";
 import { match } from "ts-pattern";
-import type { Candlestick } from "../../../interfaces";
+import type { CandlestickType } from "../../../interfaces";
 
-export const startTimeOfCandlestick = (type: Candlestick["type"], time: number | Date): number => {
+export const startTimeOfCandlestick = (type: CandlestickType, time: number): number => {
   const date = match(type)
     .with("1min", () => startOfMinute(time))
     .with("5min", () => startOfOfMinutes(time, 5))

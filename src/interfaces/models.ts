@@ -1,11 +1,23 @@
+export type CandlestickType =
+  | "1min"
+  | "5min"
+  | "15min"
+  | "30min"
+  | "1hour"
+  | "4hour"
+  | "8hour"
+  | "12hour"
+  | "1day"
+  | "1week"
+  | "1month";
+
 export type Candlestick = {
-  type: "1min" | "5min" | "15min" | "30min" | "1hour" | "4hour" | "8hour" | "12hour" | "1day" | "1week" | "1month";
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-  time: number;
+  readonly open: number;
+  readonly high: number;
+  readonly low: number;
+  readonly close: number;
+  readonly volume: number;
+  readonly time: number;
 };
 
 export type Transaction = {
